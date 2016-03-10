@@ -4,7 +4,7 @@ LD=$(TOOLCHAIN)/bin/mips-openwrt-linux-uclibc-ld
 INCPATH=.
 LDFLAGS=-lstdc++
 
-gpio_on:
-	$(CC) -I$(INCPATH) $(LDFLAGS) ../../library/src/gpio.c main.c -o gpio_on -pedantic-errors
+gpio_out:
+	$(CC) -I$(INCPATH) $(LDFLAGS) ../../library/src/gpio.c main.c -o gpio_out -pedantic-errors
 
-all: gpio_on
+all: gpio_out
