@@ -2,7 +2,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <stdio.h>
-
+#include <string.h>
 
 void gpioExport(int gpio){
   int fd;
@@ -15,7 +15,6 @@ void gpioExport(int gpio){
 
   close(fd);
 }
-
 
 void gpioDirection(int gpio, int direction){
   int fd;
@@ -33,7 +32,6 @@ void gpioDirection(int gpio, int direction){
  
   close(fd);
 }
-
 
 void gpioSet(int gpio, int value){
   int fd;
@@ -62,16 +60,15 @@ char gpioRead(int gpio){
   return buf[0];
 }
 
-int main(){
-  int gpio = 14;
-  int direction = 1;  
+int main(int argc, char *argv[]){
+  int gpio = atoi(argv[1]);  
+  int direction = atoi(argv[2]);  
   unsigned int i;
-
-  printf("gpioExport\n");
-  gpioExport(gpio);
-  printf("gpioDirection\n");
+  
+  gpioExport(gpio); 
   gpioDirection(gpio, direction);
   gpioSet(gpio, 1);
+  
   while(1){
     if(gpioRead(gpio) != '1'){
       gpioSet(gpio, 1);
@@ -83,4 +80,6 @@ int main(){
     }
     for(i=0; i<9000000; ++i);
   }
+  
+  return 0;
 }
