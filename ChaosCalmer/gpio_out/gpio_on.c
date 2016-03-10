@@ -64,16 +64,16 @@ char gpioRead(int gpio){
 
 int main(){
   int gpio = 14;
-  int direction = 1; 
-  int value = -1; 
+  int direction = 1;  
   unsigned int i;
 
   printf("gpioExport\n");
   gpioExport(gpio);
   printf("gpioDirection\n");
   gpioDirection(gpio, direction);
+  gpioSet(gpio, 1);
   while(1){
-    if(value != 0){
+    if(gpioRead(gpio) != '1'){
       gpioSet(gpio, 1);
       printf("gpioSet %d\n", 1);
     }
@@ -82,6 +82,5 @@ int main(){
       printf("gpioSet %d\n", 0);
     }
     for(i=0; i<9000000; ++i);
-    value = ~value;
   }
 }
