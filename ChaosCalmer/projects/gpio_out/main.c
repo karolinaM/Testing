@@ -6,6 +6,7 @@
  *
  */
 
+#include <string.h>
 #include "../../library/inc/gpio.h"
 
 int main(int argc, char *argv[]){
@@ -13,11 +14,11 @@ int main(int argc, char *argv[]){
   unsigned int i;
   
   gpioExport(gpio); 
-  gpioDirection(gpio, gpioDIRECTION_OUT);
-  gpioSet(gpio, 1);
+  gpioDirection(gpio, gpioDIRECTION_OUT); 
+  gpioSet(gpio, 0);
   
-  while(1){
-    if(gpioRead(gpio) != '1'){
+  while(1){ 
+    if(gpioRead(gpio) - '0' != 1){
       gpioSet(gpio, 1);
       printf("gpioSet %d\n", 1);
     }
@@ -29,4 +30,5 @@ int main(int argc, char *argv[]){
   }
   
   return 0;
+
 }
