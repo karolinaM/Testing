@@ -1,12 +1,19 @@
+/*
+ * Project: gpio_out
+ *
+ * Karolina Majstrovic
+ * 2016
+ *
+ */
+
 #include "../../library/inc/gpio.h"
 
 int main(int argc, char *argv[]){
   int gpio = atoi(argv[1]);  
-  int direction = atoi(argv[2]);  
   unsigned int i;
   
   gpioExport(gpio); 
-  gpioDirection(gpio, direction);
+  gpioDirection(gpio, gpioDIRECTION_OUT);
   gpioSet(gpio, 1);
   
   while(1){
