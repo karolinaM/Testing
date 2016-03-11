@@ -64,7 +64,7 @@ char gpioRead(int gpio){
   fd = open(buf, O_RDONLY);
    
   read(fd, buf, 1);
-  /*printf("Read: %c\n", buf[0]);*/ 
+  /*printf("Read: %d\n", buf[0]);*/ 
   close(fd);
   return buf[0];
 }
