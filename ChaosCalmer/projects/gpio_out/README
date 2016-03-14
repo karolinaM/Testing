@@ -1,0 +1,4 @@
+- before running a program, chose a GPIO pin and type this to a terminal:
+echo "pin" > /sys/class/gpio/export
+
+
