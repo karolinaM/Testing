@@ -3,7 +3,8 @@ CC=$(TOOLCHAIN)/bin/mips-openwrt-linux-gcc
 LD=$(TOOLCHAIN)/bin/mips-openwrt-linux-uclibc-ld
 INCPATH=.
 LDFLAGS=-lstdc++
-gpio_out:
-	$(CC) $(INCPATH) $(LDFLAGS) ../../library/src/gpio.c main.c -o gpio_out 
 
-all: gpio_out
+i2c_simple:
+	$(CC) -I$(INCPATH) $(LDFLAGS) ../../library/src/gpio.c ../../library/src/wavfile.c main.c -o i2c_simple
+
+all: i2c_simple

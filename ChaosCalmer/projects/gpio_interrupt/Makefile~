@@ -6,6 +6,6 @@ LDFLAGS=-lstdc++
 INCFILES=/home/karolina/Documents/CrossCompile/openwrt/build_dir/toolchain-mips_34kc_gcc-5.3.0_musl-1.1.14/linux/drivers/i2c/
 
 gpio_interrupt:
-	$(CC) $(INCPATH) $(LDFLAGS) ../../library/src/gpio.c main.c $(INCFILES)i2c-core.c -o gpio_interrupt
+	$(CC) $(INCPATH) $(LDFLAGS) ../../library/src/gpio.c main.c  -o gpio_interrupt
 
 all: gpio_interrupt

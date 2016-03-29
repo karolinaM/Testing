@@ -1,9 +1,10 @@
 TOOLCHAIN=/home/karolina/Documents/CrossCompile/Oolitev1/staging_dir/toolchain-mips_r2_gcc-4.6-linaro_uClibc-0.9.33.2/
 CC=$(TOOLCHAIN)/bin/mips-openwrt-linux-gcc
 LD=$(TOOLCHAIN)/bin/mips-openwrt-linux-uclibc-ld
-INCPATH=.
+#INCPATH=.
 LDFLAGS=-lstdc++
-gpio_out:
-	$(CC) $(INCPATH) $(LDFLAGS) ../../library/src/gpio.c main.c -o gpio_out 
 
-all: gpio_out
+gpio_interrupt:
+	$(CC) $(LDFLAGS) ../../library/src/gpio.c main.c -o gpio_interrupt
+
+all: gpio_interrupt
