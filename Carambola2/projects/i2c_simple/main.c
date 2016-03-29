@@ -26,6 +26,8 @@ int main(int argc, char *argv[]){
   
   WavInfo(fd);
   WavPlay(fd);
+
+  close(fd);
   return 0;
 
 }

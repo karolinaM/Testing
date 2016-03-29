@@ -18,12 +18,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <byteswap.h>
 
-struct RoundBuffer{
-  char buffer[1024];
-  unsigned int buf_in;
-  unsigned int buf_out;
-}RBuf;
 
 void WavInfo(int fd);
 void WavPlay(int fd);
