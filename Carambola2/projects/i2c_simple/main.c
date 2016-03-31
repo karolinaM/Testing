@@ -1,5 +1,5 @@
 /*
- * Project: gpio_out
+ * Project: i2c_simple
  *
  * Karolina Majstrovic
  * 2016

@@ -5,6 +5,6 @@ INCPATH=.
 LDFLAGS=-lstdc++
 
 i2c_simple:
-	$(CC) -I$(INCPATH) $(LDFLAGS) ../../library/src/gpio.c main.c -o i2c_simple
+	$(CC) -I$(INCPATH) $(LDFLAGS) ../../library/src/gpio.c ../../library/src/wavfile.c main.c -o i2c_simple
 
 all: i2c_simple
