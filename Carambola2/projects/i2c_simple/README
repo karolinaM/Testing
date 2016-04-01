@@ -1,0 +1,6 @@
+On Carambola2 run:
+
+# insmod spi-gpio.k
+# insmod spi-gpio-custom.ko bus1=1,18,19,20,0,4000000,23 # 4MHz is wrong, should be some other number
+# insmod i2c-gpio-custom bus1=0,15,16 # be careful Carambola will not bootup if this pins are connected to WM8731, just have to unplug it and after boot is finished plug it again
+
