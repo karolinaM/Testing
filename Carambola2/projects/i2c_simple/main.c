@@ -13,9 +13,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include "../../library/inc/gpio.h"
+//#include "../../library/inc/gpio.h"
 #include "../../library/inc/wavfile.h"
 #include <inttypes.h>
+#include <linux/i2c-dev.h>
 
 int main(int argc, char *argv[]){
   int fd;
@@ -25,8 +26,10 @@ int main(int argc, char *argv[]){
   };
   
   WavInfo(fd);
-  WavPlay(fd);
-
+  WavInitI2C();
+  //WM8731Cmd(WM8731_REG_LLINE_IN, _WM8731_left_lineIn);
+  //WavPlay(fd);
+  
   close(fd);
   return 0;
 
