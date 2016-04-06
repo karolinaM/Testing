@@ -27,8 +27,8 @@ int main(int argc, char *argv[]){
   
   WavInfo(fd);
   WavInitI2C();
-  //WM8731Cmd(WM8731_REG_LLINE_IN, _WM8731_left_lineIn);
-  //WavPlay(fd);
+ 
+  WavPlay(fd);
   
   close(fd);
   return 0;
