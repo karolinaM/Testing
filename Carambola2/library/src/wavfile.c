@@ -47,6 +47,55 @@ void WM8731Cmd(int addr, unsigned int cmd){
   printf("cmd: %x %x %x\n", 0xFF&command.c_cmd_full[1], 0xFF&command.c_cmd_full[2], 0xFF&command.c_cmd_full[3]);
 }
 
+void WavInitI2C(){ 
+  WM8731Cmd(WM8731_REG_RESET, _WM8731_Reset);               // Reset module
+  WM8731Cmd(WM8731_REG_LLINE_IN, _WM8731_left_lineIn);      // Left line in settings
+  WM8731Cmd(WM8731_REG_RLINE_IN, _WM8731_Right_lineIn);     // Rigth line in settings
+  WM8731Cmd(WM8731_REG_LHPHONE_OUT, _WM8731_Left_hp);       // Left headphone out settings
+  WM8731Cmd(WM8731_REG_RHPHONE_OUT, _WM8731_Right_hp);      // Right headphone out settings
+  WM8731Cmd(WM8731_REG_ANALOG_PATH, _WM8731_AnalogAudio);   // Analog paths
+  WM8731Cmd(WM8731_REG_DIGITAL_PATH, _WM8731_DigitalAudio); // Digital paths
+  WM8731Cmd(WM8731_REG_PDOWN_CTRL, _WM8731_power);          // Power down control
+  WM8731Cmd(WM8731_REG_DIGITAL_IF, _WM8731_DAIF);           // Digital interface
+  WM8731Cmd(WM8731_REG_SAMPLING_CTRL, _WM8731_Sampling);    // Sampling control
+}
+
+void WavPlay(int fd){
+  char data[4];
+  unsigned long int size;
+  char character;
+  int fSpiOut;
+  char buf[20];
+  
+  sprintf(buf, "/dev/spidev1.0");
+  fSpiOut = open(buf, O_WRONLY);
+  WM8731Cmd(WM8731_REG_ACTIVE_CTRL, _WM8731_Activate);
+
+  // seeks for subchunk size --> little endian
+  lseek(fd, WAV_SUB_CHUNK_SIZE, 0);
+  if(read(fd, &data[0], 4) != 4)
+    printf("not successful\n");
+  size = __bswap_32(ConvertToInt(&data[0],4));
+  printf("datasize: %d\n", size);
+  
+  lseek(fd, WAV_DATA, 0);
+  while(size > 0){
+    read(fd, &buf[0], 4);
+    write(fSpiOut, &buf[0], 2);
+    write(fSpiOut, &buf[2], 2);
+    size -= 4;
+  }
+  /*
+   * Only for testing if activate and deactivate are working without outputting noise
+  for(size = 0; size < 99999999; ++size)
+    printf("%d", size);
+  printf("\n");
+  */
+  WM8731Cmd(WM8731_REG_ACTIVE_CTRL, _WM8731_Deactivate);
+  close(fSpiOut);
+
+}
+
 unsigned int ConvertToInt(char *buf, int n){
   unsigned int tmp = 0;
   unsigned int i;
@@ -104,70 +153,6 @@ void WavInfo(int fd){
 
 }
 
-void WavInitI2C(){ 
-  WM8731Cmd(WM8731_REG_RESET, _WM8731_Reset);               // Reset module
-  WM8731Cmd(WM8731_REG_LLINE_IN, _WM8731_left_lineIn);      // Left line in settings
-  WM8731Cmd(WM8731_REG_RLINE_IN, _WM8731_Right_lineIn);     // Rigth line in settings
-  WM8731Cmd(WM8731_REG_LHPHONE_OUT, _WM8731_Left_hp);       // Left headphone out settings
-  WM8731Cmd(WM8731_REG_RHPHONE_OUT, _WM8731_Right_hp);      // Right headphone out settings
-  WM8731Cmd(WM8731_REG_ANALOG_PATH, _WM8731_AnalogAudio);   // Analog paths
-  WM8731Cmd(WM8731_REG_DIGITAL_PATH, _WM8731_DigitalAudio); // Digital paths
-  WM8731Cmd(WM8731_REG_PDOWN_CTRL, _WM8731_power);          // Power down control
-  WM8731Cmd(WM8731_REG_DIGITAL_IF, _WM8731_DAIF);           // Digital interface
-  WM8731Cmd(WM8731_REG_SAMPLING_CTRL, _WM8731_Sampling);    // Sampling control
-}
 
-void WavPlay(int fd){
-  char data[4];
-  unsigned long int size;
-  char character;
-  int fSpiOut;
-  char buf[20];
 
-  sprintf(buf, "/dev/spidev1.0");
-  fSpiOut = open(buf, O_WRONLY);
-
-  // seeks for subchunk size --> little endian
-  lseek(fd, WAV_SUB_CHUNK_SIZE, 0);
-  if(read(fd, &data[0], 4) != 4)
-    printf("not successful\n");
-  size = __bswap_32(ConvertToInt(&data[0],4));
-  printf("datasize: %d\n", size);
-  
-  lseek(fd, WAV_DATA, 0);
-  while(size > 0){
-    read(fd, &data[0], 4);
-    write(fSpiOut, &buf[0], 4);
-    size -= 4;
-  }
-  
-  close(fSpiOut);
-
-  /*
-  RBuf.buf_in = RBuf.buf_out = 0;
-  
-  //reads subchunk data --> little endian
-  while(RBuf.buf_in < 511){
-    read(fd, &character, 1);
-    RBuf.buffer[RBuf.buf_in++] = character;
-    size--;
-  }
-
-  // TODO: enable SPI interupt
-  // TODO: enable interrupts
-  // TODO: activate WM8731
-  
-  while(size > 0){
-    if(RBuf.buf_in != RBuf.buf_out){
-      read(fd, &character, 1);
-      RBuf.buffer[RBuf.buf_in++] = character;
-      if(RBuf.buf_in == 1023)
-        RBuf.buf_in = 0;
-      size--;
-    }
-  }
-
-  // TODO: deactivate WM8731
-  */
-}
 
