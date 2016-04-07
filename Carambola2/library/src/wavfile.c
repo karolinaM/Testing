@@ -79,11 +79,14 @@ void WavPlay(int fd){
   printf("datasize: %d\n", size);
   
   lseek(fd, WAV_DATA, 0);
+  // writing 16bit data
   while(size > 0){
-    read(fd, &buf[0], 4);
+    read(fd, &buf[0], 2);
+    //read(fd, &buf[0], 4);
     write(fSpiOut, &buf[0], 2);
-    write(fSpiOut, &buf[2], 2);
-    size -= 4;
+    //write(fSpiOut, &buf[2], 2);
+    //size -= 4;
+    size -= 2;
   }
   /*
    * Only for testing if activate and deactivate are working without outputting noise
